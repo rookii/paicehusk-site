@@ -83,6 +83,7 @@ button,
 input,
 select,
 textarea {
+  text-align: left;
   margin: 0;
   font-size: 100%;
   vertical-align: middle;
