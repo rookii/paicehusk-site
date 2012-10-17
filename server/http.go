@@ -135,13 +135,13 @@ var homePage = `
 		<div class="span6">
 		  <h2>Text to Stem</h2>
 		  <form>
-		  <textarea class="span6" maxlength="2000" wrap="wrap" rows="25" id="input" placeholder="Place text to stem here!"></textarea>
+		  <textarea class="span6" maxlength="2200" wrap="wrap" rows="30" id="input" placeholder="Place text to stem here!"></textarea>
 		  </form>
 		  <button id="stemButton" class="btn">Submit</button>
 		</div>
 		<div class="span6">
 		  <h2>Stemmed Output</h2>
-		  <textarea class="span6"  rows="25" readonly="readonly" id="output" placeholder="Use input Box"></textarea>
+		  <textarea class="span6"  rows="30" readonly="readonly" id="output" placeholder="Use input Box"></textarea>
 	   </div>
 	  </div>
 
