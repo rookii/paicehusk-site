@@ -1,9 +1,13 @@
 package server
 
 import (
+  "encoding/json"
+  "fmt"
 	"github.com/gorilla/mux"
+  "github.com/Rookii/paicehusk"
 	"html/template"
 	"net/http"
+  "strings"
 )
 
 var Templates *template.Template
@@ -18,11 +22,30 @@ func init() {
 
 	// Root handler
 	router.HandleFunc("/", home)
+  router.HandleFunc("/stem", stem)
 	http.Handle("/", router)
 }
 
 func home(w http.ResponseWriter, r *http.Request) {
 	Templates.ExecuteTemplate(w, "T", nil)
+}
+
+func stem(w http.ResponseWriter, r *http.Request) {
+  out := make(map[string]string)
+  decoder := json.NewDecoder(r.Body)
+  build := new(CalcBuild)
+  
+  if err := decoder.Decode(build); err != nil {
+    fmt.Println(err)
+  }
+
+  for _, word := range in {
+    out[word] = paicehusk.DefaultRules.Stem(word)
+  }
+  for _, stem := range out {
+    fmt.Println(stem)
+      fmt.Fprintf(w, stem)
+  }
 }
 
 var homePage = `
@@ -39,6 +62,7 @@ var homePage = `
 
     <!-- Le styles -->
     <link href="/assets/css/bootstrap.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -46,6 +70,25 @@ var homePage = `
       }
     </style>
     <link href="/assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            $('#stemButton').click(function() {
+                stem();
+              })
+          })
+
+        function stem(){
+            var text = $("#input").val();
+            var input = {input: text}
+            $.ajax({
+                type: "POST",
+                url: "/stem",
+                data: JSON.stringify(input)
+            }).done(function(data) {
+                $("#output").val(data);
+            });
+        };
+    </script>
   </head>
 
   <body>
@@ -58,26 +101,7 @@ var homePage = `
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Project name</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li class="nav-header">Nav header</li>
-                  <li><a href="#">Separated link</a></li>
-                  <li><a href="#">One more separated link</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div><!--/.nav-collapse -->
+          <a class="brand" href="#">Paice/Husk Stemmer</a>
         </div>
       </div>
     </div>
@@ -86,23 +110,22 @@ var homePage = `
       <!-- Example row of columns -->
       <div class="row">
         <div class="span6">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn" href="#">View details &raquo;</a></p>
-          <textarea rows="3"></textarea>
+          <h2>Text to Stem</h2>
+          <form>
+          <textarea rows="3" id="input"></textarea>
+          </form>
+          <button id="stemButton" class="btn">Submit</button>
         </div>
         <div class="span6">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn" href="#">View details &raquo;</a></p>
-          <textarea rows="3"></textarea>
+          <h2>Stemmed Output</h2>
+          <textarea rows="3" id="output"></textarea>
        </div>
       </div>
 
       <hr>
 
       <footer>
-        <p>&copy; Company 2012</p>
+        <p>&copy; Oh hai 2012</p>
       </footer>
 
     </div> <!-- /container -->
@@ -110,19 +133,7 @@ var homePage = `
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="/assets/js/jquery.js"></script>
-    <script src="/assets/js/bootstrap-transition.js"></script>
-    <script src="/assets/js/bootstrap-alert.js"></script>
-    <script src="/assets/js/bootstrap-modal.js"></script>
-    <script src="/assets/js/bootstrap-dropdown.js"></script>
-    <script src="/assets/js/bootstrap-scrollspy.js"></script>
-    <script src="/assets/js/bootstrap-tab.js"></script>
-    <script src="/assets/js/bootstrap-tooltip.js"></script>
-    <script src="/assets/js/bootstrap-popover.js"></script>
-    <script src="/assets/js/bootstrap-button.js"></script>
-    <script src="/assets/js/bootstrap-collapse.js"></script>
-    <script src="/assets/js/bootstrap-carousel.js"></script>
-    <script src="/assets/js/bootstrap-typeahead.js"></script>
+
 
   </body>
 </html>
