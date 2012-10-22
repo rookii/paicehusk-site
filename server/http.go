@@ -74,6 +74,7 @@ var homePage = `
 	<meta name="description" content="An implementation of the Paice/Husk Stemmer">
 	<meta name="author" content="Aaron Groves">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script src="/assets/js/bootstrap.min.js"></script>
 	<link href="/assets/css/bootstrap.css" rel="stylesheet">
 	<style type="text/css">
 	  body {
@@ -122,7 +123,14 @@ var homePage = `
 		  <a class="brand">Paice/Husk Stemmer</a>
 		  <div class="nav-collapse collapse">
             <ul class="nav">
-              <li><a href="https://github.com/Rookii/paicehusk">Source</a></li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown">Source<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="https://github.com/Rookii/paicehusk">Stemmer</a></li>
+                  <li><a href="https://github.com/Rookii/paicehusk-test">Evaluation</a></li>
+                  <li><a href="https://github.com/Rookii/paicehusk-site">This Site</a></li>
+                </ul>
+              </li>
             </ul>
           </div><!--/.nav-collapse -->
 		</div>
