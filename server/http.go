@@ -2,7 +2,7 @@ package server
 
 import (
 	"encoding/json"
-	"github.com/Rookii/paicehusk"
+	"github.com/rookii/paicehusk"
 	"github.com/gorilla/mux"
 	"html/template"
 	"net/http"
